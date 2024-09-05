@@ -18,7 +18,7 @@ class RenderSystem(private val batch: SpriteBatch) : IteratingSystem(Family.all(
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val pos = entity[PositionComponent.MAPPER]!!.pos
-        val texture = entity[TextureComponent.MAPPER]!!.texture ?: return
+        val texture = entity[TextureComponent.MAPPER]!!.texture
         batch.draw(texture, pos.x, pos.y)
     }
 
