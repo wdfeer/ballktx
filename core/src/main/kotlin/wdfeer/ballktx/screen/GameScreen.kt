@@ -7,6 +7,7 @@ import ktx.app.KtxScreen
 import ktx.ashley.add
 import ktx.assets.disposeSafely
 import wdfeer.ballktx.entity.Ball
+import wdfeer.ballktx.entity.Wall
 import wdfeer.ballktx.system.DebugRenderSystem
 import wdfeer.ballktx.system.PhysicsSystem
 import wdfeer.ballktx.system.RenderSystem
@@ -21,14 +22,19 @@ class GameScreen : KtxScreen {
             addSystem(RenderSystem())
         }
 
-        spawnBall()
+        spawnEntities()
     }
 
-    private fun spawnBall() {
+    private fun spawnEntities() {
+        val physics = engine.getSystem(PhysicsSystem::class.java)
+        val render = engine.getSystem(RenderSystem::class.java)
+
         engine.addEntity(Ball(
-            engine.getSystem(PhysicsSystem::class.java).world,
-            engine.getSystem(RenderSystem::class.java).camera.position.run { Vector2(x, y) }
+            physics.world,
+            render.camera.position.run { Vector2(x, y) }
         ))
+
+        // TODO: create 4 walls around the camera
     }
 
     override fun render(delta: Float) = engine.update(delta)
