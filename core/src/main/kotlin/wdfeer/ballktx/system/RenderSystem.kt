@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Disposable
 import ktx.app.clearScreen
-import ktx.ashley.get
 import ktx.assets.disposeSafely
 import ktx.graphics.use
 import wdfeer.ballktx.component.TextureComponent
@@ -21,7 +20,7 @@ class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).ge
         val w = Gdx.graphics.width.toFloat()
         val h = Gdx.graphics.height.toFloat()
 
-        camera = OrthographicCamera(VIEWPORT_SIZE, VIEWPORT_SIZE * h / w)
+        camera = OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_WIDTH * h / w)
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0f)
     }
@@ -46,6 +45,6 @@ class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).ge
     }
 
     companion object {
-        const val VIEWPORT_SIZE = 10f
+        const val VIEWPORT_WIDTH = 100f
     }
 }

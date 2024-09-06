@@ -9,6 +9,7 @@ import ktx.assets.disposeSafely
 import wdfeer.ballktx.entity.Ball
 import wdfeer.ballktx.entity.Wall
 import wdfeer.ballktx.system.DebugRenderSystem
+import wdfeer.ballktx.system.InputSystem
 import wdfeer.ballktx.system.PhysicsSystem
 import wdfeer.ballktx.system.RenderSystem
 
@@ -20,6 +21,7 @@ class GameScreen : KtxScreen {
             addSystem(PhysicsSystem())
             addSystem(DebugRenderSystem())
             addSystem(RenderSystem())
+            addSystem(InputSystem())
         }
 
         spawnEntities()

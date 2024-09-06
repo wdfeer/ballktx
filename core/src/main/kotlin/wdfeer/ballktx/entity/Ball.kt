@@ -12,7 +12,7 @@ import wdfeer.ballktx.component.BodyComponent
 class Ball(world: World, pos: Vector2) : Entity() {
     init {
         val circle = CircleShape().apply {
-            radius = 0.5f
+            radius = 1.5f
         }
 
         add(BodyComponent(world, pos, BodyDef.BodyType.DynamicBody) {
