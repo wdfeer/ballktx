@@ -10,13 +10,13 @@ import wdfeer.ballktx.component.TextureComponent
 import wdfeer.ballktx.component.VelocityComponent
 
 class Ball : Entity() {
-    private val image = Texture("ball.png".toInternalFile(), true).apply { setFilter(
-        Texture.TextureFilter.Linear,
-        Texture.TextureFilter.Linear
-    ) }
+//    private val image = Texture("ball.png".toInternalFile(), true).apply { setFilter(
+//        Texture.TextureFilter.Linear,
+//        Texture.TextureFilter.Linear
+//    ) }
 
     init {
-        add(TextureComponent(image)) // TODO: Fetch a texture
+//        add(TextureComponent(image))
         add(PositionComponent(Vector2(320f, 240f)))
         add(VelocityComponent())
         add(AccelerationComponent())
