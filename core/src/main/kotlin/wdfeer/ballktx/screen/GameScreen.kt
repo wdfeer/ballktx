@@ -16,18 +16,19 @@ class GameScreen : KtxScreen {
 
     override fun show() {
         engine.add {
-            val physicsSystem = PhysicsSystem()
-            val renderSystem = RenderSystem()
-
-            addSystem(physicsSystem)
+            addSystem(PhysicsSystem())
             addSystem(DebugRenderSystem())
-            addSystem(renderSystem)
-
-            addEntity(Ball(
-                physicsSystem.world,
-                renderSystem.camera.position.run { Vector2(x, y) }
-            ))
+            addSystem(RenderSystem())
         }
+
+        spawnBall()
+    }
+
+    private fun spawnBall() {
+        engine.addEntity(Ball(
+            engine.getSystem(PhysicsSystem::class.java).world,
+            engine.getSystem(RenderSystem::class.java).camera.position.run { Vector2(x, y) }
+        ))
     }
 
     override fun render(delta: Float) = engine.update(delta)

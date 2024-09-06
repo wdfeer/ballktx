@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Disposable
 import ktx.app.clearScreen
+import ktx.ashley.get
 import ktx.assets.disposeSafely
 import ktx.graphics.use
 import wdfeer.ballktx.component.TextureComponent
-
 
 class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).get()), Disposable {
     val camera: OrthographicCamera
@@ -21,7 +21,7 @@ class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).ge
         val w = Gdx.graphics.width.toFloat()
         val h = Gdx.graphics.height.toFloat()
 
-        camera = OrthographicCamera(w, h)
+        camera = OrthographicCamera(VIEWPORT_SIZE, VIEWPORT_SIZE * h / w)
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0f)
     }
@@ -38,14 +38,14 @@ class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).ge
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        // TODO: Get the position without PositionComponent
-
-//        val pos = entity[PositionComponent.MAPPER]!!.pos
-//        val texture = entity[TextureComponent.MAPPER]!!.texture
-//        batch.draw(texture, pos.x, pos.y)
+        // TODO: Implement drawing texture
     }
 
     override fun dispose() {
         batch.disposeSafely()
+    }
+
+    companion object {
+        const val VIEWPORT_SIZE = 10f
     }
 }
