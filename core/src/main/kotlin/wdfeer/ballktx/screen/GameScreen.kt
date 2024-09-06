@@ -29,12 +29,48 @@ class GameScreen : KtxScreen {
         val physics = engine.getSystem(PhysicsSystem::class.java)
         val render = engine.getSystem(RenderSystem::class.java)
 
+        // Create and add the ball entity
         engine.addEntity(Ball(
             physics.world,
             render.camera.position.run { Vector2(x, y) }
         ))
 
-        // TODO: create 4 walls around the camera
+        // Create 4 walls around the camera's viewport
+        val camera = render.camera
+        val camWidth = camera.viewportWidth
+        val camHeight = camera.viewportHeight
+        val camPosition = camera.position
+
+        // Define wall thickness
+        val wallThickness = 1f
+
+        // Left wall
+        engine.addEntity(Wall(
+            physics.world,
+            Vector2(camPosition.x - camWidth / 2 - wallThickness / 2, camPosition.y),  // Position
+            Vector2(wallThickness, camHeight)  // Size
+        ))
+
+        // Right wall
+        engine.addEntity(Wall(
+            physics.world,
+            Vector2(camPosition.x + camWidth / 2 + wallThickness / 2, camPosition.y),  // Position
+            Vector2(wallThickness, camHeight)  // Size
+        ))
+
+        // Bottom wall
+        engine.addEntity(Wall(
+            physics.world,
+            Vector2(camPosition.x, camPosition.y - camHeight / 2 - wallThickness / 2),  // Position
+            Vector2(camWidth, wallThickness)  // Size
+        ))
+
+        // Top wall
+        engine.addEntity(Wall(
+            physics.world,
+            Vector2(camPosition.x, camPosition.y + camHeight / 2 + wallThickness / 2),  // Position
+            Vector2(camWidth, wallThickness)  // Size
+        ))
     }
 
     override fun render(delta: Float) = engine.update(delta)
