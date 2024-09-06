@@ -1,24 +1,17 @@
 package wdfeer.ballktx.entity
 
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector2
-import ktx.assets.toInternalFile
-import wdfeer.ballktx.component.AccelerationComponent
-import wdfeer.ballktx.component.PositionComponent
-import wdfeer.ballktx.component.TextureComponent
-import wdfeer.ballktx.component.VelocityComponent
+import com.badlogic.gdx.physics.box2d.CircleShape
+import com.badlogic.gdx.physics.box2d.World
+import ktx.assets.disposeSafely
+import wdfeer.ballktx.component.DynamicBodyComponent
 
-class Ball : Entity() {
-//    private val image = Texture("ball.png".toInternalFile(), true).apply { setFilter(
-//        Texture.TextureFilter.Linear,
-//        Texture.TextureFilter.Linear
-//    ) }
-
+class Ball(world: World, pos: Vector2) : Entity() {
     init {
-//        add(TextureComponent(image))
-        add(PositionComponent(Vector2(320f, 240f)))
-        add(VelocityComponent())
-        add(AccelerationComponent())
+        CircleShape().apply { radius = 20f }.run {
+            add(DynamicBodyComponent(world, pos, this))
+            disposeSafely()
+        }
     }
 }

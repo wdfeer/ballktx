@@ -1,13 +1,13 @@
 package wdfeer.ballktx.screen
 
 import com.badlogic.ashley.core.Engine
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Disposable
 import ktx.app.KtxScreen
 import ktx.ashley.add
 import ktx.assets.disposeSafely
 import wdfeer.ballktx.entity.Ball
 import wdfeer.ballktx.system.DebugRenderSystem
-import wdfeer.ballktx.system.MovementSystem
 import wdfeer.ballktx.system.PhysicsSystem
 import wdfeer.ballktx.system.RenderSystem
 
@@ -16,13 +16,17 @@ class GameScreen : KtxScreen {
 
     override fun show() {
         engine.add {
-            addSystem(PhysicsSystem())
-            addSystem(MovementSystem())
+            val physicsSystem = PhysicsSystem()
+            val renderSystem = RenderSystem()
+
+            addSystem(physicsSystem)
             addSystem(DebugRenderSystem())
-            addSystem(RenderSystem())
+            addSystem(renderSystem)
 
-
-            addEntity(Ball())
+            addEntity(Ball(
+                physicsSystem.world,
+                renderSystem.camera.position.run { Vector2(x, y) }
+            ))
         }
     }
 
