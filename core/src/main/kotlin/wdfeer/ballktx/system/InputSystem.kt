@@ -21,9 +21,9 @@ class InputSystem : EntitySystem() {
         val camera = engine.getSystem(RenderSystem::class.java).camera
 
         if (isKeyPressed(Keys.EQUALS))
-            camera.zoom += 0.003f
-        if (isKeyPressed(Keys.MINUS))
             camera.zoom -= 0.003f
+        if (isKeyPressed(Keys.MINUS))
+            camera.zoom += 0.003f
 
         val forceMagnitude: Float = if (isKeyPressed(Keys.SHIFT_LEFT)) 15f else 5f
         val forceVector = Vector2(0f, 0f)
