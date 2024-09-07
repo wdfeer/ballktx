@@ -14,6 +14,7 @@ class Wall(world: World, pos: Vector2, size: Vector2) : Entity() {
 
         add(BodyComponent(world, pos, BodyDef.BodyType.StaticBody) {
             createFixture(shape, 0f)
+            userData = this@Wall
         })
 
         shape.disposeSafely()

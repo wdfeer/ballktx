@@ -22,6 +22,8 @@ class Ball(world: World, pos: Vector2) : Entity() {
                 friction = 0.1f
                 restitution = 1f
             })
+
+            userData = this@Ball
         })
 
         circle.disposeSafely()

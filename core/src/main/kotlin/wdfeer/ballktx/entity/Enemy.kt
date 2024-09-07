@@ -13,6 +13,7 @@ class Enemy(world: World, pos: Vector2) : Entity() {
 
         add(BodyComponent(world, pos, BodyDef.BodyType.KinematicBody) {
             createFixture(shape, 0.5f)
+            userData = this@Enemy
         })
 
         shape.disposeSafely()
