@@ -19,7 +19,7 @@ class EnemySystem : IteratingSystem(Family.all(EnemyComponent::class.java, BodyC
         if (body.position.minus(enemyComponent.moveTarget).len() < 1f || enemyComponent.moveTarget == Vector2.Zero) {
             if (body.linearVelocity.len() > 0.2f) body.linearVelocity *= 0.8f
 
-            enemyComponent.moveTarget = engine.getSystem(RenderSystem::class.java).camera.position.run {
+            enemyComponent.moveTarget = CameraManager.camera.position.run {
                 Vector2(x, y)
             } + Vector2(Random.nextFloat() * 100f - 50f, Random.nextFloat() * 50f - 25f)
         }
