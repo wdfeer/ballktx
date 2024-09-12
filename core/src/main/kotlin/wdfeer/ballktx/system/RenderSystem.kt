@@ -14,7 +14,10 @@ import ktx.graphics.use
 import wdfeer.ballktx.component.BodyComponent
 import wdfeer.ballktx.component.TextureComponent
 import wdfeer.ballktx.extension.toVector3
-import wdfeer.ballktx.system.SpawnSystem.Companion.getChamberSize
+import wdfeer.ballktx.system.SpawnSystem.Companion.CHAMBER_HEIGHT
+import wdfeer.ballktx.system.SpawnSystem.Companion.CHAMBER_WIDTH
+import wdfeer.ballktx.system.SpawnSystem.Companion.chamberCenter
+import wdfeer.ballktx.util.GraphicsUtils.aspectRatio
 
 class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).get()), Disposable {
     val batch = SpriteBatch()
@@ -39,12 +42,16 @@ class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).ge
 }
 
 object CameraManager {
-    val camera: OrthographicCamera = getChamberSize().run { OrthographicCamera(x, y) }
-        .apply { position.set(viewportWidth / 2f, viewportHeight / 2f, 0f) }
+    private val cameraSize: Vector2 get() = if (CHAMBER_WIDTH / CHAMBER_HEIGHT > aspectRatio)
+        Vector2(CHAMBER_WIDTH, CHAMBER_WIDTH / aspectRatio)
+    else
+        Vector2(CHAMBER_HEIGHT * aspectRatio, CHAMBER_HEIGHT)
+
+    val camera: OrthographicCamera = cameraSize.run { OrthographicCamera(x, y) }
     private var cameraMode = CameraMode.Fixed
 
     private fun getCameraPosition(engine: Engine): Vector2 = when (cameraMode) {
-        CameraMode.Fixed -> getChamberSize().run { Vector2(x / 2f, y / 2f) }
+        CameraMode.Fixed -> chamberCenter
         CameraMode.Following -> engine.getSystem(SpawnSystem::class.java).ball.getComponent(BodyComponent::class.java).body.position
     }
 

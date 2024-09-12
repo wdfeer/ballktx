@@ -3,9 +3,7 @@ package wdfeer.ballktx.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IntervalSystem
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
-import ktx.math.div
 import ktx.math.plus
 import wdfeer.ballktx.component.EnemyComponent
 import wdfeer.ballktx.entity.Ball
@@ -13,7 +11,7 @@ import wdfeer.ballktx.entity.Enemy
 import wdfeer.ballktx.entity.Wall
 import kotlin.random.Random
 
-class SpawnSystem(engine: Engine) : IntervalSystem(0.5f) {
+class SpawnSystem(engine: Engine) : IntervalSystem(0.2f) {
     init {
         val physics = engine.getSystem(PhysicsSystem::class.java)
 
@@ -26,49 +24,44 @@ class SpawnSystem(engine: Engine) : IntervalSystem(0.5f) {
     private fun spawnBall(engine: Engine, physics: PhysicsSystem) {
         ball = Ball(
             physics.world,
-            getChamberSize() / 2f
+            chamberCenter
         )
         engine.addEntity(ball)
     }
 
     private fun spawnWalls(engine: Engine, physics: PhysicsSystem) {
-        val camera = CameraManager.camera
-        val camWidth = camera.viewportWidth
-        val camHeight = camera.viewportHeight
-        val camPosition = camera.position
-
         val wallThickness = 1f
 
         // Left wall
         engine.addEntity(
             Wall(
                 physics.world,
-                Vector2(camPosition.x - camWidth / 2 - wallThickness / 2, camPosition.y),  // Position
-                Vector2(wallThickness, camHeight)  // Size
+                Vector2(chamberCenter.x - CHAMBER_WIDTH / 2 - wallThickness / 2, chamberCenter.y),  // Position
+                Vector2(wallThickness, CHAMBER_HEIGHT)  // Size
             )
         )
         // Right wall
         engine.addEntity(
             Wall(
                 physics.world,
-                Vector2(camPosition.x + camWidth / 2 + wallThickness / 2, camPosition.y),  // Position
-                Vector2(wallThickness, camHeight)  // Size
+                Vector2(chamberCenter.x + CHAMBER_WIDTH / 2 + wallThickness / 2, chamberCenter.y),  // Position
+                Vector2(wallThickness, CHAMBER_HEIGHT)  // Size
             )
         )
         // Bottom wall
         engine.addEntity(
             Wall(
                 physics.world,
-                Vector2(camPosition.x, camPosition.y - camHeight / 2 - wallThickness / 2),  // Position
-                Vector2(camWidth, wallThickness)  // Size
+                Vector2(chamberCenter.x, chamberCenter.y - CHAMBER_HEIGHT / 2 - wallThickness / 2),  // Position
+                Vector2(CHAMBER_WIDTH, wallThickness)  // Size
             )
         )
         // Top wall
         engine.addEntity(
             Wall(
                 physics.world,
-                Vector2(camPosition.x, camPosition.y + camHeight / 2 + wallThickness / 2),  // Position
-                Vector2(camWidth, wallThickness)  // Size
+                Vector2(chamberCenter.x, chamberCenter.y + CHAMBER_HEIGHT / 2 + wallThickness / 2),  // Position
+                Vector2(CHAMBER_WIDTH, wallThickness)  // Size
             )
         )
     }
@@ -79,21 +72,23 @@ class SpawnSystem(engine: Engine) : IntervalSystem(0.5f) {
 
     private fun updateEnemySpawn() {
         if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).size() < 2) {
-            val pos = CameraManager.camera.position.run {
-                Vector2(x, y)
-            } + Vector2(Random.nextFloat() * 30f - 15f, Random.nextFloat() * 30f - 15f)
+            val pos = getRandomPositionInChamber()
+
             engine.addEntity(Enemy(engine.getSystem(PhysicsSystem::class.java).world, pos))
         }
     }
 
+
     companion object {
-        private const val CHAMBER_WIDTH = 100f
+        const val CHAMBER_WIDTH = 160f
+        const val CHAMBER_HEIGHT = 100f
 
-        fun getChamberSize(): Vector2 {
-            val w = Gdx.graphics.width.toFloat()
-            val h = Gdx.graphics.height.toFloat()
+        val chamberCenter: Vector2 get() = Vector2(0f, 0f)
+        val chamberSize: Vector2 get() = Vector2(CHAMBER_WIDTH, CHAMBER_HEIGHT)
 
-            return Vector2(CHAMBER_WIDTH, CHAMBER_WIDTH * h / w)
+        fun getRandomPositionInChamber() = chamberCenter + chamberSize.apply {
+            x *= Random.nextFloat() - 0.5f
+            y *= Random.nextFloat() - 0.5f
         }
     }
 }
