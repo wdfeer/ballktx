@@ -25,13 +25,18 @@ class SpawnSystem(engine: Engine) : IntervalSystem(0.2f) {
         engine.addEntity(ball)
     }
 
-    override fun updateInterval() {
-        updateEnemySpawn()
-    }
+    override fun updateInterval() = updateEnemySpawn()
 
+    private val roomsComplete: MutableList<Room> = mutableListOf()
     private fun updateEnemySpawn() {
-        if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).none()) {
+        val roomSystem = engine.getSystem(RoomSystem::class.java)
+
+        if (!roomsComplete.contains(roomSystem.room)) {
             spawnEnemies()
+            roomsComplete.add(roomSystem.room)
+        }
+        else if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).none()) {
+            roomSystem.createNextRoom()
         }
     }
 

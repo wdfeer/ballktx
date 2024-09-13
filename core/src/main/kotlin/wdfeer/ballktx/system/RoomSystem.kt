@@ -10,6 +10,10 @@ import wdfeer.ballktx.entity.Wall
 import kotlin.random.Random
 
 class RoomSystem(engine: Engine) : EntitySystem() {
+    fun createNextRoom() {
+        TODO("Not yet implemented")
+    }
+
     var room: Room = Room(engine, engine.getSystem(PhysicsSystem::class.java).world, roomCenter, roomSize)
 
     companion object {
