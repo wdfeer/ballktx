@@ -30,10 +30,17 @@ class SpawnSystem(engine: Engine) : IntervalSystem(0.2f) {
     }
 
     private fun updateEnemySpawn() {
-        if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).size() < 2) {
-            val pos = engine.getSystem(RoomSystem::class.java).room.getRandomPosition()
-
-            engine.addEntity(Enemy(engine.getSystem(PhysicsSystem::class.java).world, pos))
+        if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).size() < ENEMY_COUNT) {
+            spawnEnemy()
         }
+    }
+
+    private fun spawnEnemy() {
+        val pos = engine.getSystem(RoomSystem::class.java).room.getRandomPosition()
+        engine.addEntity(Enemy(engine.getSystem(PhysicsSystem::class.java).world, pos))
+    }
+
+    companion object {
+        const val ENEMY_COUNT = 5
     }
 }

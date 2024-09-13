@@ -14,18 +14,17 @@ class PhysicsSystem : EntitySystem() {
     val world = World(Vector2.Zero, true).apply { setContactListener(object : ContactListener {
         override fun beginContact(contact: Contact) {}
         override fun endContact(contact: Contact) {
-            val bodies = listOf(contact.fixtureA, contact.fixtureB).associateWith { it.body.userData as? Entity }
+            val entities = listOf(contact.fixtureA, contact.fixtureB).map { it.body.userData as? Entity }
 
-            val ball = bodies.entries.find { it.value is Ball } ?: return
-            val enemy = bodies.entries.find { it.value is Enemy } ?: return
+            val ball = entities.find { it is Ball } as? Ball ?: return
+            val enemy = entities.find { it is Enemy } as? Enemy ?: return
 
-            engine.removeEntity(enemy.value)
-            bodiesToDelete += enemy.key.body
+            engine.getSystem(EnemySystem::class.java).onCollideWithBall(enemy, this@PhysicsSystem)
         }
         override fun preSolve(contact: Contact?, oldManifold: Manifold?) {}
         override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {}
     }) }
-    private var bodiesToDelete: MutableList<Body> = mutableListOf()
+    var bodiesToDelete: MutableList<Body> = mutableListOf()
 
     private var accumulator = 0f
     override fun update(deltaTime: Float) {

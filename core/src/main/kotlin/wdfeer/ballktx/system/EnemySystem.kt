@@ -8,6 +8,8 @@ import ktx.math.minus
 import ktx.math.times
 import wdfeer.ballktx.component.BodyComponent
 import wdfeer.ballktx.component.EnemyComponent
+import wdfeer.ballktx.entity.Enemy
+import wdfeer.ballktx.extension.body
 
 class EnemySystem : IteratingSystem(Family.all(EnemyComponent::class.java, BodyComponent::class.java).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
@@ -24,5 +26,10 @@ class EnemySystem : IteratingSystem(Family.all(EnemyComponent::class.java, BodyC
         if ((body.linearVelocity.nor() - direction).len() != 0f) {
             body.linearVelocity = direction * 10f
         }
+    }
+
+    fun onCollideWithBall(enemy: Enemy, physics: PhysicsSystem) {
+        engine.removeEntity(enemy)
+        physics.bodiesToDelete += enemy.body!!
     }
 }
