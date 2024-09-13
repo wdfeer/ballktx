@@ -16,7 +16,6 @@ import wdfeer.ballktx.component.TextureComponent
 import wdfeer.ballktx.extension.toVector3
 import wdfeer.ballktx.system.RoomSystem.Companion.ROOM_HEIGHT
 import wdfeer.ballktx.system.RoomSystem.Companion.ROOM_WIDTH
-import wdfeer.ballktx.system.RoomSystem.Companion.roomCenter
 import wdfeer.ballktx.util.GraphicsUtils.aspectRatio
 
 class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).get()), Disposable {
@@ -51,8 +50,8 @@ object CameraManager {
     private var cameraMode = CameraMode.Fixed
 
     private fun getCameraPosition(engine: Engine): Vector2 = when (cameraMode) {
-        CameraMode.Fixed -> roomCenter
-        CameraMode.Following -> engine.getSystem(SpawnSystem::class.java).ball.getComponent(BodyComponent::class.java).body.position
+        CameraMode.Fixed -> engine.getSystem(RoomSystem::class.java)?.currentRoom?. center ?: Vector2.Zero
+        CameraMode.Following -> engine.getSystem(SpawnSystem::class.java).ball?.getComponent(BodyComponent::class.java)?.body?.position ?: Vector2.Zero
     }
 
     fun update(render: RenderSystem) {

@@ -6,34 +6,29 @@ import com.badlogic.ashley.systems.IntervalSystem
 import wdfeer.ballktx.component.EnemyComponent
 import wdfeer.ballktx.entity.Ball
 import wdfeer.ballktx.entity.Enemy
-import wdfeer.ballktx.system.RoomSystem.Companion.roomCenter
 
-class SpawnSystem(engine: Engine) : IntervalSystem(0.2f) {
-    init {
-        val physics = engine.getSystem(PhysicsSystem::class.java)
+class SpawnSystem() : IntervalSystem(0.2f) {
+    override fun updateInterval() {
+        if (ball == null) spawnBall(engine)
 
-        spawnBall(engine, physics)
+        updateEnemySpawn()
     }
 
-    lateinit var ball: Ball
-
-    private fun spawnBall(engine: Engine, physics: PhysicsSystem) {
+    var ball: Ball? = null
+    private fun spawnBall(engine: Engine) {
         ball = Ball(
-            physics.world,
-            roomCenter
-        )
-        engine.addEntity(ball)
+            engine.getSystem(PhysicsSystem::class.java).world,
+            engine.getSystem(RoomSystem::class.java).currentRoom.center
+        ).also { engine.addEntity(it) }
     }
-
-    override fun updateInterval() = updateEnemySpawn()
 
     private val roomsComplete: MutableList<Room> = mutableListOf()
     private fun updateEnemySpawn() {
         val roomSystem = engine.getSystem(RoomSystem::class.java)
 
-        if (!roomsComplete.contains(roomSystem.room)) {
+        if (!roomsComplete.contains(roomSystem.currentRoom)) {
             spawnEnemies()
-            roomsComplete.add(roomSystem.room)
+            roomsComplete.add(roomSystem.currentRoom)
         }
         else if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).none()) {
             roomSystem.createNextRoom()
@@ -42,7 +37,7 @@ class SpawnSystem(engine: Engine) : IntervalSystem(0.2f) {
 
     private fun spawnEnemies() {
         repeat(ENEMY_COUNT) {
-            val pos = engine.getSystem(RoomSystem::class.java).room.getRandomPosition()
+            val pos = engine.getSystem(RoomSystem::class.java).currentRoom.getRandomPosition()
             engine.addEntity(Enemy(engine.getSystem(PhysicsSystem::class.java).world, pos))
         }
     }

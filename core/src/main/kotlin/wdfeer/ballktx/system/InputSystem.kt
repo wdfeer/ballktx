@@ -38,7 +38,7 @@ class InputSystem : EntitySystem() {
         if (isKeyPressed(Keys.D))
             forceVector.x += forceMagnitude
 
-        val ball = engine.entities[0]!!
+        val ball = engine.getSystem(SpawnSystem::class.java).ball ?: return
         val ballBody = ball.getComponent(BodyComponent::class.java).body
 
         if (isKeyPressed(Keys.CONTROL_LEFT)) {

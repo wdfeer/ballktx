@@ -19,7 +19,7 @@ class EnemySystem : IteratingSystem(Family.all(EnemyComponent::class.java, BodyC
         if (body.position.minus(enemyComponent.moveTarget).len() < 1f || enemyComponent.moveTarget == Vector2.Zero) {
             if (body.linearVelocity.len() > 0.2f) body.linearVelocity *= 0.8f
 
-            enemyComponent.moveTarget = engine.getSystem(RoomSystem::class.java).room.getRandomPosition()
+            enemyComponent.moveTarget = engine.getSystem(RoomSystem::class.java).currentRoom.getRandomPosition()
         }
 
         val direction = (enemyComponent.moveTarget - body.position).nor()

@@ -16,7 +16,7 @@ class GameScreen : KtxScreen {
             addSystem(DebugRenderSystem())
             addSystem(RenderSystem())
             addSystem(InputSystem())
-            addSystem(SpawnSystem(engine))
+            addSystem(SpawnSystem())
             addSystem(RoomSystem(engine))
             addSystem(EnemySystem())
         }
