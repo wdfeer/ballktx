@@ -1,27 +1,14 @@
 package wdfeer.ballktx.screen
 
-import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.utils.Disposable
 import ktx.app.KtxScreen
-import ktx.ashley.add
 import ktx.assets.disposeSafely
-import wdfeer.ballktx.system.*
+import wdfeer.ballktx.engine.GameEngine
 
 class GameScreen : KtxScreen {
-    private val engine = Engine()
+    private val engine = GameEngine()
 
-    override fun show() {
-        engine.add {
-            addSystem(PhysicsSystem())
-            addSystem(DebugRenderSystem())
-            addSystem(RenderSystem())
-            addSystem(InputSystem())
-            addSystem(SpawnSystem())
-            addSystem(RoomSystem(engine))
-            addSystem(EnemySystem())
-        }
-    }
-
+    override fun show() = engine.initialize()
 
     override fun render(delta: Float) = engine.update(delta)
 
