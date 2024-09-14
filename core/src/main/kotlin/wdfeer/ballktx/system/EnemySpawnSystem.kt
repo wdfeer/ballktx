@@ -1,8 +1,6 @@
 package wdfeer.ballktx.system
 
-import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IntervalSystem
-import wdfeer.ballktx.component.EnemyComponent
 import wdfeer.ballktx.entity.Enemy
 
 class EnemySpawnSystem : IntervalSystem(0.2f) {
@@ -13,7 +11,7 @@ class EnemySpawnSystem : IntervalSystem(0.2f) {
             spawnEnemies()
             roomsComplete.add(roomSystem.currentRoom)
         }
-        else if (engine.getEntitiesFor(Family.one(EnemyComponent::class.java).get()).none()) {
+        else if (engine.entities.none { it is Enemy }) {
             roomSystem.createNextRoom()
         }
     }

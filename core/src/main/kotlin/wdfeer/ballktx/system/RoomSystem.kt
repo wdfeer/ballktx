@@ -10,14 +10,14 @@ import wdfeer.ballktx.entity.Wall
 import wdfeer.ballktx.extension.body
 import kotlin.random.Random
 
-class RoomSystem(engine: Engine) : EntitySystem() {
-    private val world get() = engine.getSystem(PhysicsSystem::class.java).world
+class RoomSystem(eng: Engine) : EntitySystem() {
+    private val Engine.world get() = getSystem(PhysicsSystem::class.java).world
 
-    private val rooms: MutableList<Room> = mutableListOf(Room(engine, world, Vector2.Zero, roomSize))
+    private val rooms: MutableList<Room> = mutableListOf(Room(eng, eng.world, Vector2.Zero, roomSize))
     val currentRoom: Room get() = rooms.last()
 
     fun createNextRoom() {
-        val room = Room(engine, world, currentRoom.center + Vector2.X * ROOM_WIDTH * 2f, roomSize, true)
+        val room = Room(engine, engine.world, currentRoom.center + Vector2.X * ROOM_WIDTH * 2f, roomSize, true)
         currentRoom.connect(room)
         rooms.add(room)
     }

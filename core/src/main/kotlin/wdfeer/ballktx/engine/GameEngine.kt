@@ -6,11 +6,13 @@ import wdfeer.ballktx.system.*
 class GameEngine : Engine() {
     fun initialize() {
         addSystem(PhysicsSystem())
-        addSystem(DebugRenderSystem())
+        addSystem(RoomSystem(this))
         addSystem(BallSystem(this)) // FIXME: system initialization stopping on BallSystem
+
+        addSystem(DebugRenderSystem())
         addSystem(RenderSystem())
         addSystem(InputSystem())
-        addSystem(RoomSystem(this))
+
         addSystem(EnemySystem())
         addSystem(EnemySpawnSystem())
     }
