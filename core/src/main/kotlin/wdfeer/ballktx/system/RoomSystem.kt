@@ -110,8 +110,6 @@ class Room(val engine: Engine, private val world: World, val center: Vector2, va
             removeWall(middleRightWall)
         }
 
-        // Create a corridor connecting the rooms
-        val corridorWidth = 20f
         val corridorHeight = size.y / 3
         val corridorCenter = Vector2(
             (center.x + other.center.x) / 2,

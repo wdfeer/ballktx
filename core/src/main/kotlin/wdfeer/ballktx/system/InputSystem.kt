@@ -22,7 +22,7 @@ class InputSystem : EntitySystem() {
         if (isKeyPressed(Keys.MINUS))
             CameraManager.camera.zoom += 0.003f
 
-        val forceMagnitude: Float = if (isKeyPressed(Keys.SHIFT_LEFT)) 15f else 5f
+        val forceMagnitude: Float = if (isKeyPressed(Keys.SHIFT_LEFT)) 25f else 10f
         val forceVector = Vector2(0f, 0f)
 
         if (isKeyPressed(Keys.W))
