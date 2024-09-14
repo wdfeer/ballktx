@@ -19,13 +19,11 @@ class EnemySpawnSystem : IntervalSystem(0.2f) {
     private val roomsComplete: MutableList<Room> = mutableListOf()
 
     private fun spawnEnemies() {
-        repeat(ENEMY_COUNT) {
+        repeat(enemyCount) {
             val pos = engine.getSystem(RoomSystem::class.java).currentRoom.getRandomPosition()
             engine.addEntity(Enemy(engine.getSystem(PhysicsSystem::class.java).world, pos))
         }
     }
 
-    companion object {
-        const val ENEMY_COUNT = 5
-    }
+    val enemyCount get() = 3 + 5 * roomsComplete.count()
 }
