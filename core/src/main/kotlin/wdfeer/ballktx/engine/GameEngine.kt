@@ -9,8 +9,9 @@ class GameEngine : Engine() {
         addSystem(RoomSystem(this))
         addSystem(BallSystem(this)) // FIXME: system initialization stopping on BallSystem
 
-        addSystem(DebugRenderSystem())
         addSystem(RenderSystem())
+        addSystem(DebugRenderSystem())
+
         addSystem(InputSystem())
 
         addSystem(EnemySystem())
