@@ -1,29 +1,12 @@
 package wdfeer.ballktx.system
 
-import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IntervalSystem
 import wdfeer.ballktx.component.EnemyComponent
-import wdfeer.ballktx.entity.Ball
 import wdfeer.ballktx.entity.Enemy
 
-class SpawnSystem : IntervalSystem(0.2f) {
+class EnemySpawnSystem : IntervalSystem(0.2f) {
     override fun updateInterval() {
-        if (ball == null) spawnBall(engine)
-
-        updateEnemySpawn()
-    }
-
-    var ball: Ball? = null
-    private fun spawnBall(engine: Engine) {
-        ball = Ball(
-            engine.getSystem(PhysicsSystem::class.java).world,
-            engine.getSystem(RoomSystem::class.java).currentRoom.center
-        ).also { engine.addEntity(it) }
-    }
-
-    private val roomsComplete: MutableList<Room> = mutableListOf()
-    private fun updateEnemySpawn() {
         val roomSystem = engine.getSystem(RoomSystem::class.java)
 
         if (!roomsComplete.contains(roomSystem.currentRoom)) {
@@ -34,6 +17,8 @@ class SpawnSystem : IntervalSystem(0.2f) {
             roomSystem.createNextRoom()
         }
     }
+
+    private val roomsComplete: MutableList<Room> = mutableListOf()
 
     private fun spawnEnemies() {
         repeat(ENEMY_COUNT) {
