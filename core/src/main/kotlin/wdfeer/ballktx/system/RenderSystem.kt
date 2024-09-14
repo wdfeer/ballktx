@@ -12,13 +12,14 @@ import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 import ktx.graphics.use
 import wdfeer.ballktx.component.BodyComponent
-import wdfeer.ballktx.component.TextureComponent
+import wdfeer.ballktx.component.DrawComponent
+import wdfeer.ballktx.component.DrawComponent.Companion.draw
 import wdfeer.ballktx.extension.toVector3
 import wdfeer.ballktx.system.RoomSystem.Companion.ROOM_HEIGHT
 import wdfeer.ballktx.system.RoomSystem.Companion.ROOM_WIDTH
 import wdfeer.ballktx.util.GraphicsUtils.aspectRatio
 
-class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).get()), Disposable {
+class RenderSystem : IteratingSystem(Family.all(DrawComponent::class.java).get()), Disposable {
     val batch = SpriteBatch()
 
     override fun update(deltaTime: Float) {
@@ -29,7 +30,7 @@ class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).ge
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        // TODO: Implement drawing texture
+        entity.draw!!()
     }
 
     override fun dispose() {

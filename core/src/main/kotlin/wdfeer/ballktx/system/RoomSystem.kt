@@ -7,11 +7,10 @@ import com.badlogic.gdx.physics.box2d.World
 import ktx.math.plus
 import ktx.math.times
 import wdfeer.ballktx.entity.Wall
-import wdfeer.ballktx.extension.body
+import wdfeer.ballktx.system.PhysicsSystem.Companion.world
 import kotlin.random.Random
 
 class RoomSystem(eng: Engine) : EntitySystem() {
-    private val Engine.world get() = getSystem(PhysicsSystem::class.java).world
 
     private val rooms: MutableList<Room> = mutableListOf(Room(eng, eng.world, Vector2.Zero, roomSize))
     val currentRoom: Room get() = rooms.last()
@@ -36,7 +35,6 @@ class Room(val engine: Engine, private val world: World, val center: Vector2, va
     private fun removeWall(wall: Wall) {
         walls.remove(wall)
         engine.removeEntity(wall)
-        world.destroyBody(wall.body)
     }
 
     private val walls: MutableList<Wall> = spawnWalls(engine, world, center, size, openLeftWall).toMutableList()

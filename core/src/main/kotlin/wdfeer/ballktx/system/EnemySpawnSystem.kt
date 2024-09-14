@@ -2,6 +2,7 @@ package wdfeer.ballktx.system
 
 import com.badlogic.ashley.systems.IntervalSystem
 import wdfeer.ballktx.entity.Enemy
+import wdfeer.ballktx.system.PhysicsSystem.Companion.world
 
 class EnemySpawnSystem : IntervalSystem(0.2f) {
     override fun updateInterval() {
@@ -21,7 +22,7 @@ class EnemySpawnSystem : IntervalSystem(0.2f) {
     private fun spawnEnemies() {
         repeat(enemyCount) {
             val pos = engine.getSystem(RoomSystem::class.java).currentRoom.getRandomPosition()
-            engine.addEntity(Enemy(engine.getSystem(PhysicsSystem::class.java).world, pos))
+            engine.addEntity(Enemy(engine.world, pos))
         }
     }
 

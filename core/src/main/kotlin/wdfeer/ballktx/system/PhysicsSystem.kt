@@ -1,5 +1,6 @@
 package wdfeer.ballktx.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.math.Vector2
@@ -14,10 +15,10 @@ class PhysicsSystem : EntitySystem() {
         override fun endContact(contact: Contact) {
             val entities = listOf(contact.fixtureA, contact.fixtureB).map { it.body.userData as? Entity }
 
-            val ball = entities.find { it is Ball } as? Ball ?: return
+            if (entities.none { it is Ball }) return
             val enemy = entities.find { it is Enemy } as? Enemy ?: return
 
-            engine.getSystem(EnemySystem::class.java).onCollideWithBall(enemy, this@PhysicsSystem)
+            engine.getSystem(EnemyLogicSystem::class.java).onCollideWithBall(enemy)
         }
         override fun preSolve(contact: Contact?, oldManifold: Manifold?) {}
         override fun postSolve(contact: Contact?, impulse: ContactImpulse?) {}
@@ -43,5 +44,8 @@ class PhysicsSystem : EntitySystem() {
         const val TIME_STEP = 1/60f
         const val VELOCITY_ITERATIONS = 6
         const val POSITION_ITERATIONS = 2
+
+        val Engine.physics: PhysicsSystem get() = getSystem(PhysicsSystem::class.java)
+        val Engine.world get() = physics.world
     }
 }

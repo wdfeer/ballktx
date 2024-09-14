@@ -1,6 +1,5 @@
 package wdfeer.ballktx.screen
 
-import com.badlogic.gdx.utils.Disposable
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import wdfeer.ballktx.engine.GameEngine
@@ -12,5 +11,5 @@ class GameScreen : KtxScreen {
 
     override fun render(delta: Float) = engine.update(delta)
 
-    override fun dispose() = engine.systems.filterIsInstance<Disposable>().forEach(Disposable::disposeSafely)
+    override fun dispose() = engine.disposeSafely()
 }
