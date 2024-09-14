@@ -30,7 +30,7 @@ class RoomSystem(eng: Engine) : EntitySystem() {
     }
 }
 
-class Room(val engine: Engine, val world: World, val center: Vector2, val size: Vector2, open: Boolean = false) { // TODO: use the open argument to determine whether the left wall should be split open
+class Room(val engine: Engine, val world: World, val center: Vector2, val size: Vector2, openLeftWall: Boolean = false) { // TODO: use the open argument to determine whether the left wall should be split open
     private fun Engine.addWall(world: World, position: Vector2, size: Vector2): Wall =
         Wall(world, position, size).also { this.addEntity(it) }
     private fun removeWall(wall: Wall) {
@@ -39,14 +39,14 @@ class Room(val engine: Engine, val world: World, val center: Vector2, val size: 
         world.destroyBody(wall.body)
     }
 
-    val walls: MutableList<Wall> = spawnWalls(engine, world, center, size, open).toMutableList()
+    val walls: MutableList<Wall> = spawnWalls(engine, world, center, size, openLeftWall).toMutableList()
 
     private val wallThickness = 1f
-    private fun spawnWalls(engine: Engine, world: World, center: Vector2, size: Vector2, open: Boolean): List<Wall> {
+    private fun spawnWalls(engine: Engine, world: World, center: Vector2, size: Vector2, openLeftWall: Boolean): List<Wall> {
         val width = size.x
         val height = size.y
         return listOf(
-            // TODO: Split left wall into 3 equal walls without the middle one if 'open' is true
+            // TODO: Split left wall into 3 equal walls without the middle one if 'openLeftWall' is true
             engine.addWall(
                 world,
                 Vector2(center.x - width / 2 - wallThickness / 2, center.y),
