@@ -7,7 +7,7 @@ class GameEngine : Engine() {
     fun initialize() {
         addSystem(PhysicsSystem())
         addSystem(RoomSystem(this))
-        addSystem(BallSystem(this)) // FIXME: system initialization stopping on BallSystem
+        addSystem(BallSystem(this))
 
         addSystem(RenderSystem())
         addSystem(DebugRenderSystem())
