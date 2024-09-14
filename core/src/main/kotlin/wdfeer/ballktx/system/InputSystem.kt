@@ -9,10 +9,6 @@ import ktx.math.times
 import wdfeer.ballktx.component.BodyComponent
 
 class InputSystem : EntitySystem() {
-    init {
-        priority = -100 // Highest priority
-    }
-
     override fun update(deltaTime: Float) {
         Gdx.input.handle()
     }
@@ -38,7 +34,7 @@ class InputSystem : EntitySystem() {
         if (isKeyPressed(Keys.D))
             forceVector.x += forceMagnitude
 
-        val ball = engine.getSystem(SpawnSystem::class.java).ball ?: return
+        val ball = engine.getSystem(SpawnSystem::class.java)?.ball ?: return
         val ballBody = ball.getComponent(BodyComponent::class.java).body
 
         if (isKeyPressed(Keys.CONTROL_LEFT)) {

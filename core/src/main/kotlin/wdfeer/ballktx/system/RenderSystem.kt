@@ -20,9 +20,6 @@ import wdfeer.ballktx.util.GraphicsUtils.aspectRatio
 
 class RenderSystem : IteratingSystem(Family.all(TextureComponent::class.java).get()), Disposable {
     val batch = SpriteBatch()
-    init {
-        priority = -10
-    }
 
     override fun update(deltaTime: Float) {
         CameraManager.update(this)

@@ -9,8 +9,6 @@ import wdfeer.ballktx.entity.Enemy
 import kotlin.math.min
 
 class PhysicsSystem : EntitySystem() {
-    init { priority = -5 }
-
     val world = World(Vector2.Zero, true).apply { setContactListener(object : ContactListener {
         override fun beginContact(contact: Contact) {}
         override fun endContact(contact: Contact) {

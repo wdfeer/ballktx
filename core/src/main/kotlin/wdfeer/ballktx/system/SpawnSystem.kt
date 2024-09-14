@@ -7,7 +7,7 @@ import wdfeer.ballktx.component.EnemyComponent
 import wdfeer.ballktx.entity.Ball
 import wdfeer.ballktx.entity.Enemy
 
-class SpawnSystem() : IntervalSystem(0.2f) {
+class SpawnSystem : IntervalSystem(0.2f) {
     override fun updateInterval() {
         if (ball == null) spawnBall(engine)
 
