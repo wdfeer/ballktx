@@ -30,7 +30,7 @@ class RenderSystem : IteratingSystem(Family.all(DrawComponent::class.java).get()
     }
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        entity.draw!!()
+        entity.draw!!(batch)
     }
 
     override fun dispose() {
