@@ -8,9 +8,9 @@ class EnemySpawnSystem : IntervalSystem(0.2f) {
     override fun updateInterval() {
         val roomSystem = engine.getSystem(RoomSystem::class.java)
 
-        if (!roomsComplete.contains(roomSystem.currentRoom)) {
+        if (!roomsComplete.contains(roomSystem.lastRoom)) {
             spawnEnemies()
-            roomsComplete.add(roomSystem.currentRoom)
+            roomsComplete.add(roomSystem.lastRoom)
         }
         else if (engine.entities.none { it is Enemy }) {
             roomSystem.createNextRoom()
@@ -21,7 +21,7 @@ class EnemySpawnSystem : IntervalSystem(0.2f) {
 
     private fun spawnEnemies() {
         repeat(enemyCount) {
-            val pos = engine.getSystem(RoomSystem::class.java).currentRoom.getRandomPosition()
+            val pos = engine.getSystem(RoomSystem::class.java).lastRoom.getRandomPosition()
             engine.addEntity(Enemy(engine.world, pos))
         }
     }

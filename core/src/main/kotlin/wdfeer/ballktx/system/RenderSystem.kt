@@ -48,7 +48,7 @@ object CameraManager {
     private var cameraMode = CameraMode.Fixed
 
     private fun getCameraPosition(engine: Engine): Vector2 = when (cameraMode) {
-        CameraMode.Fixed -> engine.getSystem(RoomSystem::class.java).currentRoom. center
+        CameraMode.Fixed -> engine.getSystem(RoomSystem::class.java).run { currentInterior?.center ?: lastRoom.center }
         CameraMode.Following -> engine.getSystem(BallSystem::class.java).ball.getComponent(BodyComponent::class.java).body.position
     }
 

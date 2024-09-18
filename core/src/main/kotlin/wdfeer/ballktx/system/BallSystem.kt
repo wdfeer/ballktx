@@ -8,6 +8,6 @@ import wdfeer.ballktx.system.PhysicsSystem.Companion.world
 class BallSystem(engine: Engine) : EntitySystem() {
     val ball: Ball = Ball(
         engine.world,
-        engine.getSystem(RoomSystem::class.java).currentRoom.center
+        engine.getSystem(RoomSystem::class.java).lastRoom.center
     ).also { engine.addEntity(it) }
 }
