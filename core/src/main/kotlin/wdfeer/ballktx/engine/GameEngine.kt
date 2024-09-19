@@ -10,18 +10,30 @@ import wdfeer.ballktx.system.PhysicsSystem.Companion.physics
 
 class GameEngine : Engine(), Disposable {
     fun initialize() {
+        initializeStaticSystems()
+        initializeRendering()
+        initializeInput()
+        initializeDynamicSystems()
+    }
+
+    private fun initializeStaticSystems() {
         addSystem(PhysicsSystem())
         addSystem(RoomSystem(this))
-        addSystem(BallSystem(this))
+    }
 
+    private fun initializeRendering() {
         addSystem(RenderSystem())
         addSystem(DebugRenderSystem())
+    }
+    private fun initializeInput() = addSystem(InputSystem())
 
-        addSystem(InputSystem())
-
+    private fun initializeDynamicSystems() {
+        addSystem(BallSystem(this))
         addSystem(EnemyLogicSystem())
         addSystem(EnemySpawnSystem())
+        addSystem(TutorialSystem(this))
     }
+
 
     override fun removeEntity(entity: Entity?) {
         entity?.body?.let { physics.bodiesToDelete.add(it) }

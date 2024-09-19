@@ -13,6 +13,6 @@ class Label(private val text: String, private val position: Vector2) : Entity() 
     }
 
     companion object {
-        val font = BitmapFont()
+        val font = BitmapFont().apply { data.setScale(0.1f) }
     }
 }

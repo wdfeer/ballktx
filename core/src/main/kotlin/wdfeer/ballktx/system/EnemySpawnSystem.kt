@@ -26,5 +26,5 @@ class EnemySpawnSystem : IntervalSystem(0.2f) {
         }
     }
 
-    val enemyCount get() = 3 + 5 * roomsComplete.count()
+    private val enemyCount get() = 3 + 5 * roomsComplete.count()
 }
