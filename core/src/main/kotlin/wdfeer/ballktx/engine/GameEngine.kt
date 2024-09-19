@@ -22,6 +22,7 @@ class GameEngine : Engine(), Disposable {
     }
 
     private fun initializeRendering() {
+        addSystem(CameraSystem())
         addSystem(RenderSystem())
         addSystem(DebugRenderSystem())
     }

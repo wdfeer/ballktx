@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.math.Vector2
 import ktx.math.times
 import wdfeer.ballktx.component.BodyComponent
+import wdfeer.ballktx.system.CameraSystem.Companion.cameraSystem
 
 class InputSystem : EntitySystem() {
     override fun update(deltaTime: Float) {
@@ -15,12 +16,12 @@ class InputSystem : EntitySystem() {
 
     private fun Input.handle() {
         if (isKeyJustPressed(Keys.V))
-            CameraManager.cycleMode()
+            engine.cameraSystem.cycleMode()
 
         if (isKeyPressed(Keys.EQUALS))
-            CameraManager.camera.zoom -= 0.003f
+            engine.cameraSystem.camera.zoom -= 0.003f
         if (isKeyPressed(Keys.MINUS))
-            CameraManager.camera.zoom += 0.003f
+            engine.cameraSystem.camera.zoom += 0.003f
 
         val forceMagnitude: Float = if (isKeyPressed(Keys.SHIFT_LEFT)) 25f else 10f
         val forceVector = Vector2(0f, 0f)
