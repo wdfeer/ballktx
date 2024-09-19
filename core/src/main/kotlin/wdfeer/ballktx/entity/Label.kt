@@ -2,17 +2,25 @@ package wdfeer.ballktx.entity
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.math.Vector2
+import ktx.math.*
 import wdfeer.ballktx.component.DrawComponent
+import wdfeer.ballktx.extension.size
 
-class Label(private val text: String, private val position: Vector2) : Entity() {
+class Label(text: String, private val center: Vector2) : Entity() {
+    private val layout = GlyphLayout(font, text)
     init {
         add(DrawComponent {
-            font.draw(it, text, position.x, position.y)
+            val pos = center - layout.size / 2f
+            font.draw(it, layout, pos.x, pos.y)
         })
     }
 
     companion object {
-        val font = BitmapFont().apply { data.setScale(0.1f) }
+        val font = BitmapFont().apply {
+            setUseIntegerPositions(false)
+            data.setScale(0.2f)
+        }
     }
 }
