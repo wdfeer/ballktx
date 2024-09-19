@@ -5,12 +5,13 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.World
 import ktx.math.plus
 import ktx.math.times
+import wdfeer.ballktx.system.PhysicsSystem.Companion.world
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
-class Room(val engine: Engine, private val world: World, center: Vector2, size: Vector2, openLeftWall: Boolean = false) : Interior(center, size) {
+class Room(val engine: Engine, center: Vector2, size: Vector2, openLeftWall: Boolean = false) : Interior(center, size) {
     init {
-        walls.addAll(spawnWalls(engine, world, center, size, openLeftWall))
+        walls.addAll(spawnWalls(engine, engine.world, center, size, openLeftWall))
     }
 
     private fun removeWall(wall: Wall) {
@@ -79,7 +80,7 @@ class Room(val engine: Engine, private val world: World, center: Vector2, size: 
         return wallList
     }
 
-    fun connect(other: Room): Corridor {
+    fun connect(other: Room) {
         // Remove middle right wall of this room
         val middleRightWall = walls.find { it.position.x > center.x && it.position.y == center.y }
         if (middleRightWall != null) {
@@ -93,7 +94,7 @@ class Room(val engine: Engine, private val world: World, center: Vector2, size: 
             center.y
         )
 
-        return Corridor(engine, world, corridorCenter, Vector2(corridorWidth, corridorHeight))
+        engine.addEntity(Corridor(engine, engine.world, corridorCenter, Vector2(corridorWidth, corridorHeight)))
     }
 
     fun getRandomPosition() = center + size * Vector2(Random.nextFloat() - 0.5f, Random.nextFloat() - 0.5f)
