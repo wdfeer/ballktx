@@ -2,6 +2,7 @@ package wdfeer.ballktx.system
 
 import com.badlogic.ashley.systems.IntervalSystem
 import wdfeer.ballktx.entity.Enemy
+import wdfeer.ballktx.entity.Room
 import wdfeer.ballktx.system.PhysicsSystem.Companion.world
 
 class EnemySpawnSystem : IntervalSystem(0.2f) {
