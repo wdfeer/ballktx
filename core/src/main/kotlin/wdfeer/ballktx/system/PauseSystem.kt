@@ -1,10 +1,13 @@
 package wdfeer.ballktx.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.EntitySystem
+import wdfeer.ballktx.entity.PauseInputEntity
 import wdfeer.ballktx.system.parent.PauseImmune
 
-class PauseSystem : EntitySystem(), PauseImmune {
+class PauseSystem(eng: Engine) : EntitySystem(), PauseImmune {
     init {
+        eng.addEntity(PauseInputEntity(this))
         priority = Int.MIN_VALUE
     }
 
