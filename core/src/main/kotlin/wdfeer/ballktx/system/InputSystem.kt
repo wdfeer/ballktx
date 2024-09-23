@@ -8,21 +8,29 @@ import com.badlogic.gdx.math.Vector2
 import ktx.math.times
 import wdfeer.ballktx.component.BodyComponent
 import wdfeer.ballktx.system.CameraSystem.Companion.cameraSystem
+import wdfeer.ballktx.system.parent.PauseImmune
 
-class InputSystem : EntitySystem() {
+class InputSystem : EntitySystem(), PauseImmune {
     override fun update(deltaTime: Float) {
         Gdx.input.handle()
     }
 
     private fun Input.handle() {
+        handlePause()
+        handleCamera()
+        handleMovement()
+    }
+
+    private fun Input.handleCamera() {
         if (isKeyJustPressed(Keys.V))
             engine.cameraSystem.cycleMode()
-
         if (isKeyPressed(Keys.EQUALS))
             engine.cameraSystem.camera.zoom -= 0.003f
         if (isKeyPressed(Keys.MINUS))
             engine.cameraSystem.camera.zoom += 0.003f
+    }
 
+    private fun Input.handleMovement() {
         val forceMagnitude: Float = if (isKeyPressed(Keys.SHIFT_LEFT)) 25f else 10f
         val forceVector = Vector2(0f, 0f)
 
@@ -44,5 +52,11 @@ class InputSystem : EntitySystem() {
         }
 
         ballBody.applyForceToCenter(forceVector, true)
+    }
+
+    private fun Input.handlePause() {
+        if (isKeyJustPressed(Keys.ESCAPE)) {
+            engine.getSystem(PauseSystem::class.java).toggle()
+        }
     }
 }

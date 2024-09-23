@@ -11,8 +11,9 @@ import ktx.graphics.use
 import wdfeer.ballktx.component.DrawComponent
 import wdfeer.ballktx.component.DrawComponent.Companion.draw
 import wdfeer.ballktx.system.CameraSystem.Companion.cameraSystem
+import wdfeer.ballktx.system.parent.PauseImmune
 
-class RenderSystem : IteratingSystem(Family.all(DrawComponent::class.java).get()), Disposable {
+class RenderSystem : IteratingSystem(Family.all(DrawComponent::class.java).get()), Disposable, PauseImmune {
     private val batch = SpriteBatch()
 
     override fun update(deltaTime: Float) {

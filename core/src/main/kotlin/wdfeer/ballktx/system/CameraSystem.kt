@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import wdfeer.ballktx.component.BodyComponent
 import wdfeer.ballktx.extension.toVector3
+import wdfeer.ballktx.system.parent.PauseImmune
 import wdfeer.ballktx.util.GraphicsUtils
 
-class CameraSystem : EntitySystem() {
+class CameraSystem : EntitySystem(), PauseImmune {
     private val cameraSize: Vector2
         get() = if (RoomSystem.ROOM_WIDTH / RoomSystem.ROOM_HEIGHT > GraphicsUtils.aspectRatio)
             Vector2(RoomSystem.ROOM_WIDTH, RoomSystem.ROOM_WIDTH / GraphicsUtils.aspectRatio)

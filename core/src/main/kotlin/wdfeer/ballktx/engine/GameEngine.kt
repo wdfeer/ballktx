@@ -12,8 +12,9 @@ class GameEngine : Engine(), Disposable {
     fun initialize() {
         initializeStaticSystems()
         initializeRendering()
-        initializeInput()
+        addSystem(InputSystem())
         initializeDynamicSystems()
+        addSystem(PauseSystem())
     }
 
     private fun initializeStaticSystems() {
@@ -26,7 +27,6 @@ class GameEngine : Engine(), Disposable {
         addSystem(RenderSystem())
         addSystem(DebugRenderSystem())
     }
-    private fun initializeInput() = addSystem(InputSystem())
 
     private fun initializeDynamicSystems() {
         addSystem(BallSystem(this))
